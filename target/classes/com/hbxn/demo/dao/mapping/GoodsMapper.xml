@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hbxn.demo.dao.GoodsMapper" >
+    <resultMap id="BaseResultMap" type="com.hbxn.demo.entity.Goods" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+        <result column="goodsNum" property="goodsNum" jdbcType="INTEGER" />
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, goodsName,goodsNum, createTime
+    </sql>
+    <select id="seleteGoodsInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM goods
+        WHERE
+        goodsName = #{goodsName}
+    </select>
+    <!--更新数据-->
+    <update id="updateGoodsNum" parameterType="java.lang.String" >
+        update goods
+        <set >
+            goodsNum = goodsNum-1,
+            createTime =  now()
+        </set>
+        where goodsName = #{goodsName,jdbcType=VARCHAR} AND goodsNum-1>0
+    </update>
+
+</mapper>
